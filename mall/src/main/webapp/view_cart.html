@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="商城">
+    <meta name="description" content="">
+    <title>购物车</title>
+
+    <link href="/plugins/zui/css/zui.css" rel="stylesheet">
+    <link href="/plugins/zui/css/zui-theme.css" rel="stylesheet">
+    <link href="/css/my.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="/plugins/zui/lib/ieonly/html5shiv.js"></script>
+    <script src="/plugins/zui/lib/ieonly/respond.js"></script>
+    <script src="/plugins/zui/lib/ieonly/excanvas.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+
+<div id="top"></div>
+
+<!-- 主内容 -->
+<div class="wrapper" style="min-height: 500px;">
+    <div class="panel" style="margin-top: 20px">
+        <div class="panel-heading" style="font-size: 18px">
+            <strong>我的购物车</strong>
+        </div>
+        <form  method="post">
+            <div class="panel-body">
+                <table class="table">
+                    <thead>
+                    <tr class="text-center">
+                        <td></td>
+                        <td colspan="2" class="text-left">商品信息</td>
+                        <td class="text-left">价格</td>
+                        <td>数量</td>
+                        <td>金额</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody id="cart-list">
+
+                    <!--<tr>
+                        <td><input type="checkbox" name="ids"/> </td>
+                        <td style="width: 100px">
+                            <a href="/product_detail?id=11">
+                                <img src="/img/dell-desktop.jpg" title="" alt=""/>
+                            </a>
+                        </td>
+                        <td class="text-left">
+                            <a href="/product_detail.html?id=11" class="media-wrapper">
+                                戴尔（DELL）Vostro 3800-R6308 台式电脑
+                            </a>
+                        <td style="width: 100px">
+                            <div id="price">
+                                3199.00
+                            </div>
+                        </td>
+                        <td style="width: 140px">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="icon icon-minus"></i></span>
+                                <input type="text" name="amounts" id="amount" value="1" class="form-control" style="text-align: center;"/>
+                                <span class="input-group-addon"><i class="icon icon-plus"></i></span>
+                            </div>
+                        </td>
+                        <td style="width: 160px" class="text-center text-middle">
+                            <strong class="text-danger" id="sum">3199.00</strong>
+                        </td>
+                        <td style="width: 120px" class="text-middle text-center">
+                            <a href="/removeFromCart?id=11" class="deleter">删除</a>
+                        </td>
+                    </tr>-->
+
+
+
+                    </tbody>
+                </table>
+                <div class="panel-footer text-right">
+                    选择了
+                    <strong class="text-danger" id="amount-sum"></strong> 件商品， 共计：
+                    <strong id="price-sum" class="text-danger"></strong>
+                    <input type="button" id="checkoutbutton" class="btn btn-primary" value="去结算" data-loading="稍候..."/>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="modal fade" id="login">
+        <div class="modal-dialog modal-sm">
+            <form action="" method="post" class="form-horizontal" id="loginForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">
+                            <span aria-hidden="true">×</span><span class="sr-only">关闭</span>
+                        </button>
+                        <h4 class="modal-title">您尚未登陆</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="form-group">
+                          <div id="formError" class="alert alert-danger"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="mobile" id="mobile" value=""
+                                   placeholder="请输入手机号" class="form-control input-lg">
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="pwd" id="pwd" value=""
+                                   placeholder="请输入密码" class="form-control input-lg">
+                        </div>
+                        <button type="button" class="btn btn-primary btn-wider btn-lg" id="btn_login">登录</button>
+                        &nbsp; &nbsp; <a href="/member_register.html">注册</a>&nbsp;
+                        &nbsp; <a href="/resetpassword.html">忘记密码</a>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- /主内容 -->
+
+<div id="bottom"></div>
+
+<script src="/plugins/zui/lib/jquery/jquery.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/plugins/zui/js/zui.js"></script>
+<script src="/js/include.js"></script>
+<script src="/js/my.js"></script>
+
+<script>
+    $(function(){
+        //发送ajax查看购物车中的内容
+        $.ajax({
+            url:"/cart/viewCart",
+            type:"get",
+            success:function(data){   //{flag:false,msg:购物车为空}   {flag:true,msg:查询成功,data:[{product:{id:1,name:iphone6,....},number:3},{product:{},number:3},{product:{},number:3}]}
+                if(data.flag==false){
+                    //$("#cart-list").html(data.msg)
+                    $(".panel-body").html("<h1 style='margin:0px auto'>"+data.msg+"</h1>");
+                }else{
+                   var contentHTML="";
+                   for(var i=0; i<data.data.length; i++){
+                       var cartitem = data.data[i];
+                       contentHTML+='<tr>\n' +
+                           '                        <td><input type="checkbox" id="ids" name="ids" value="'+cartitem.product.id+'" onclick="countSum()"/> </td>\n' +
+                           '                        <td style="width: 100px">\n' +
+                           '                            <a href="/product_detail.html?id='+cartitem.product.id+'">\n' +
+                           '                                <img src="/img/'+cartitem.product.thumbnail+'" title="" alt=""/>\n' +
+                           '                            </a>\n' +
+                           '                        </td>\n' +
+                           '                        <td class="text-left">\n' +
+                           '                            <a href="/product_detail.html?id='+cartitem.product.id+'" class="media-wrapper">\n' +
+                           '                                '+cartitem.product.name+'\n' +
+                           '                            </a>\n' +
+                           '                        <td style="width: 100px">\n' +
+                           '                            <div id="price">\n' +
+                           '                                '+cartitem.product.sale_price+'\n' +
+                           '                            </div>\n' +
+                           '                        </td>\n' +
+                           '                        <td style="width: 140px">\n' +
+                           '                            <div class="input-group">\n' +
+                           '                                <span class="input-group-addon" onclick="minus(this)"><i class="icon icon-minus"></i></span>\n' +
+                           '                                <input type="text"  name="amounts" id="amount" value="'+cartitem.number+'" class="form-control" style="text-align: center;"/>\n' +
+                           '                                <span class="input-group-addon" onclick="plus(this)"><i class="icon icon-plus"></i></span>\n' +
+                           '                            </div>\n' +
+                           '                        </td>\n' +
+                           '                        <td style="width: 160px" class="text-center text-middle">\n' +
+                           '                            <strong class="text-danger" id="sum">'+(cartitem.number*cartitem.product.sale_price)+'</strong>\n' +
+                           '                        </td>\n' +
+                           '                        <td style="width: 120px" class="text-middle text-center">\n' +
+                           '                            <a href="/removeFromCart?id=11" class="deleter">删除</a>\n' +
+                           '                        </td>\n' +
+                           '                    </tr>';
+                   }
+                   $("#cart-list").html(contentHTML);
+
+                }
+
+                //计算总价格
+                countSum();
+            }
+        })
+
+        //为结算按钮添加点击事件
+        $("#checkoutbutton").click(function(){
+
+            //发送请求判断用是否登陆
+            $.ajax({
+                url:"/member/findNickName",
+                success:function(data){     //{flag:  msg:  data:{会员信息}}
+                    if(data.data==null){
+                        //如果用户未登陆，则弹出登陆对话框
+                        $("#login").modal("show");
+                    }else{
+
+                        //获取需要结算的商品编号,并跳转到订单页面
+                        var ids=[];
+                        var amounts=[];
+                        for(var i=0;i< $("input[name='ids']").length; i++){
+                            if($("input[name='ids']")[i].checked==true){       //将选中的id和数量放到数组中
+                                ids.push($("input[name='ids']")[i].value);
+                                amounts.push($("input[name='amounts']")[i].value)
+                            }
+                        }
+                        //如果用户已登陆，则跳转到order_confirm.html;
+                        window.location.href="/order_confirm.html?ids="+ids+"&amounts="+amounts;
+                    }
+                }
+            })
+        });
+
+        //为登录按钮添加点击事件
+        $("#btn_login").click(function(){
+
+            //发送ajax进行登录操作
+            $.ajax({
+                url:"/member/login",
+                data:$("#loginForm").serialize(),
+                type:"post",
+                dataType:"json",
+                success:function(data){
+                    if(data.flag==true){
+                        //说明登陆成功，登陆成功后也跳转到order-confirm.html
+                        //获取需要结算的商品编号,并跳转到订单页面
+                        var ids=[];
+                        var amounts=[];
+                        for(var i=0;i< $("input[name='ids']").length; i++){
+                            if($("input[name='ids']")[i].checked==true){       //将选中的id和数量放到数组中
+                                ids.push($("input[name='ids']")[i].value);
+                                amounts.push($("input[name='amounts']")[i].value)
+                            }
+                        }
+                        window.location.href="/order_confirm.html?ids="+ids+"&amounts="+amounts;
+                    }else{
+                        alert(data.msg);
+                        //如果登录失败
+                        $("#formError").text(data.msg);
+                    }
+                }
+            })
+        })
+    })
+</script>
+
+<script>
+
+    function plus(component){
+
+        var countInput = $(component).prev('input'); //获取input元素
+        var num = parseInt(countInput.val()) + 1; //获取input中的值并转化成整数再加上1
+        countInput.val(num); //把值赋给input
+     change(countInput); //触发change事件
+
+    }
+
+    function minus(component){
+        var countInput = $(component).next('input');
+        if(countInput.val() <= 1) {
+            return false;
+        }
+        countInput.val(parseInt(countInput.val()) - 1);
+      change(countInput); //触发change事件
+
+    }
+
+    function change(component){
+        var amount = parseInt($(component).val()); //获取当前的数量并转化为整数
+        var price = parseFloat($(component).parents('tr').find('#price').text());//获取当前表格行中的商品价格并转化为浮点数
+        var sum = (amount * price).toFixed(2); //计算当前表格行的值，取两位小数
+        $(component).parents('tr').find('#sum').text(sum);
+        countSum();
+    }
+
+    /*计算总数量及总价格*/
+    function countSum(){
+        var amount = 0;
+        var price = 0;
+        $('#cart-list>tr').each(function(){ //循环表格的每一行
+            if($(this).find("#ids").prop("checked")==true){
+                amount += parseInt($("#amount", $(this)).val());
+                price = (parseFloat(price) + parseFloat($("#sum", $(this)).text())).toFixed(2);
+            }
+        })
+        $('#amount-sum').text(amount);
+        $('#price-sum').text(price);
+    }
+
+</script>
+
+</body>
+</html>

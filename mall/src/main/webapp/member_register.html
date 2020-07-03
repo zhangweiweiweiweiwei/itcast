@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="商城">
+	<meta name="description" content="">
+	<title>黑马商城-会员注册</title>
+
+	<link href="/plugins/zui/css/zui.css" rel="stylesheet">
+	<link href="/plugins/zui/css/zui-theme.css" rel="stylesheet">
+	<link href="/css/my.css" rel="stylesheet">
+
+</head>
+<body>
+<div id="top"></div>
+
+	<!-- 主内容 -->
+	<div class="wrapper" style="min-height: 500px;">
+		<div class="panel" style="margin-top: 20px">
+			<div class="panel-heading" style="font-size: 18px">
+				<strong>会员注册</strong>
+			</div>
+			<div class="panel-body row">
+				<div class="col-xs-3"></div>
+
+				<div class="col-xs-6" style="padding: 30px 60px">
+					<div class="panel" style="border: none;">
+						<div class="panel-heading" style="background: none;">
+							<strong>欢迎注册成为会员</strong>
+						</div>
+						<div class="panel-body">
+							<form action="/member_register" method="post" id="registForm">
+								<div class="form-group">
+									<div id="formError" class="alert alert-danger"></div>
+								</div>
+								<div class="form-group">
+									<input type="text" name="mobile" id="mobile" placeholder="请输入手机号" class="form-control input-lg">
+								</div>
+								<div class="form-group">
+									<input type="password" name="pwd" id="password1" value="" placeholder="请输入密码" class="form-control input-lg">
+								</div>
+								<div class="form-group">
+									<input type="password" name="pwd2" id="password2" value="" placeholder="请再输入密码" class="form-control input-lg">
+								</div>
+
+								<button type="button" class="btn btn-primary btn-wider btn-lg" id="btn_reg">注册</button>
+								&nbsp; &nbsp;
+								<button type="reset" class="btn btn-wider btn-lg">重置</button>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-3"></div>
+
+			</div>
+		</div>
+	</div>
+	<!-- /主内容 -->
+
+<div id="bottom"></div>
+
+<script src="/plugins/zui/lib/jquery/jquery.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/plugins/zui/js/zui.js"></script>
+<script src="/js/include.js"></script>
+<script src="/js/my.js"></script>
+
+<script>
+	//验证手机号
+	function checkPhone() {
+		//获取手机号码
+		var phone=$("#mobile").val();
+		//使用正则定义手机校验规则
+		var phoneReg= /^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$/;
+		//对手机号进行校验
+		if(phoneReg.test(phone)){
+			//给手机号的边框添加绿色的样式
+			$("#mobile").css("border","1px solid green");
+			return true;
+		}else{
+			//给手机号的边框添加红色的样式
+			$("#mobile").css("border","1px solid red");
+			return false;
+		}
+
+	}
+
+	//验证密码(长度必须是6-18位)
+	function checkPwd(){
+		var pwd = $("#password1").val();
+		if(pwd.length>=6 && pwd.length<=18){
+			$("#password1").css("border","1px solid green");
+			return true;
+		}else{
+			$("#password1").css("border","1px solid red");
+			return false;
+		}
+	}
+
+	//验证密码(长度必须是6-18位)
+	function checkPwd2(){
+		var pwd2 = $("#password2").val();
+		var pwd1 = $("#password1").val();
+		if(pwd2!=pwd1){
+			$("#password2").css("border","1px solid red");
+			return false;
+		}else{
+			$("#password2").css("border","1px solid green");
+			return true;
+		}
+
+	}
+
+
+	$(function(){
+		//为手机输入框添加离焦事件
+		$("#mobile").blur(function(){
+			checkPhone();
+		})
+		//为密码框1添加离焦事件
+		$("#password1").blur(function(){
+			checkPwd();
+		})
+
+		//为密码框2添加离焦事件
+		$("#password2").blur(function(){
+			checkPwd2();
+		})
+
+		//为添加按钮添加点击事件
+		$("#btn_reg").click(function(){
+			if(checkPhone()&&checkPwd()&&checkPwd2()){
+				//发送ajax进行注册的处理   (axios.js也可以用于发送ajax)
+				$.ajax({
+					//url:"/registerServlet",
+					url:"/member/register",
+					//方式一：data:{"mobile":$("#mobile").val(),"pwd":$("#pwd").val()}
+					//方式二:data:"mobile="+("#mobile").val()+"&pwd="+$("#pwd").val()
+					data:$("#registForm").serialize(),//解决手动输入的麻烦
+					type:"post",
+					dataType:"json",
+					success:function(data){   //返回的结果{"flag":false,msg:"注册失败"}或{"flag":true,msg:"注册成功"}
+						//如果失败则显示失败信息
+						if(data.flag==false){
+							$("#formError").html(data.msg);
+						}else{
+							//如果成功则跳回登陆页面让用户登陆
+							window.location.href="/member_login.html";
+						}
+
+
+					}
+				})
+
+
+			}else{
+				$("#formError").html("您的输入不合法");
+			}
+		})
+	})
+
+
+
+</script>
+
+</body>
+</html>

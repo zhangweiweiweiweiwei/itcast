@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="商城">
+    <meta name="description" content="">
+    <title>黑马商城-商品列表</title>
+
+    <link href="/plugins/zui/css/zui.css" rel="stylesheet">
+    <link href="/plugins/zui/css/zui-theme.css" rel="stylesheet">
+    <link href="/css/my.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="/plugins/zui/lib/ieonly/html5shiv.js"></script>
+    <script src="/plugins/zui/lib/ieonly/respond.js"></script>
+    <script src="/plugins/zui/lib/ieonly/excanvas.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+
+<div id="top"></div>
+
+
+<!-- 商品列表 -->
+<div class="wrapper" style="min-height: 500px">
+    <!-- 面包屑导航 -->
+    <ol class="breadcrumb">
+        <li>
+            <span class="breadcrumb-title">当前位置：</span>
+            <a href="/main">产品列表</a>
+        </li>
+        <li class="active">产品列表</li>
+    </ol>
+
+    <!-- 列表开始 -->
+    <div class="list">
+        <section class="cards cards-borderless cards-products row" id="list">
+
+<!--            <div class="col-xs-2">
+                <div class="card">
+                    <a href="/product_detail.html?id=15" target="_blank">
+                        <img src="/img/letv.jpg" alt="" />
+                    </a>
+                    <div class="card-heading">
+                        <span class="pull-right price">￥999.00 </span>
+                        <a href="/product_detail.html?id=15" target="_blank">
+                            乐视（Letv）乐1S 太子妃版 32GB 银色 移动联通4G手机 双卡双待
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-2">
+                <div class="card">
+                    <a href="/product_detail?id=6" target="_blank">
+                        <img src="/img/uniscope.jpg" alt="" />
+                    </a>
+                    <div class="card-heading">
+                        <span class="pull-right price">￥168.00 </span>
+                        <a href="/product_detail?id=6" target="_blank">优思 US1 移动 联通 三防 老人手机 迷彩</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-2">
+                <div class="card">
+                    <a href="/product_detail?id=5" target="_blank">
+                        <img src="/img/huawei.jpg" alt="" />
+                    </a>
+                    <div class="card-heading">
+                        <span class="pull-right price">￥3,188.00 </span>
+                        <a href="/product_detail?id=5" target="_blank">华为 P9 全网通 3GB+32GB版 流光金 移动联通电信4G手机 双卡双待</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-2">
+                <div class="card">
+                    <a href="/product_detail?id=4" target="_blank">
+                        <img src="/img/xiaomi.jpg" alt="" />
+                    </a>
+                    <div class="card-heading">
+                        <span class="pull-right price">￥1,699.00 </span>
+                        <a href="/product_detail?id=4" target="_blank">小米Max</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-2">
+                <div class="card">
+                    <a href="/product_detail?id=3" target="_blank">
+                        <img src="/img/meinote3.jpg" alt="" />
+                    </a>
+                    <div class="card-heading">
+                        <span class="pull-right price">￥699.00 </span>
+                        <a href="/product_detail?id=3" target="_blank">魅蓝3 礼盒版</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-2">
+                <div class="card">
+                    <a href="/product_detail?id=2" target="_blank">
+                        <img src="/img/iphone6s.jpg" alt="" />
+                    </a>
+                    <div class="card-heading">
+                        <span class="pull-right price">￥4,880.00 </span>
+                        <a href="/product_detail?id=2" target="_blank">iphone 6s plus (64G)</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-2">
+                <div class="card">
+                    <a href="/product_detail?id=1" target="_blank">
+                        <img src="/img/nokia.jpg" alt="" />
+                    </a>
+                    <div class="card-heading">
+                        <span class="pull-right price">￥120.00 </span>
+                        <a href="/product_detail?id=1" target="_blank">Nokia 经典通话机（第七代）</a>
+                    </div>
+                </div>
+            </div>-->
+
+        </section>
+
+        <div class="clearfix"
+             style="padding: 0 12px; border-top: 1px dotted #e5e5e5;">
+
+                <ul class="pager pull-right" style="margin:0;" id="pageNav">
+                   <!-- <li><a href="javascript:void(0)">1</a></li>
+                    <li class="active"><a href="javascript:void(0)">2</a></li>
+                    <li><a href="javascript:void(0)">3</a></li>-->
+                </ul>
+            <div class='pull-right' style='height:32px;line-height:32px;margin-right:8px;'>共<strong id="totalSize">24</strong>件商品,共<srong id="totalPage">3</srong>页,<strong id="currentPage">1</strong>页</div>
+
+        </div>
+    </div>
+    <!-- /列表结束 -->
+</div>
+<!-- /商品列表 -->
+
+
+<div id="bottom"></div>
+
+<script src="/plugins/zui/lib/jquery/jquery.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/plugins/zui/js/zui.js"></script>
+<script src="/js/include.js"></script>
+<script src="/js/my.js"></script>
+
+<script>
+
+    $(function(){
+        //页面加载完后，获取由top.html传过来的cate_id
+        var search=window.location.search;//该方法设置或返回从问号 (?) 开始的 URL（查询部分）
+        var cate_id=search.split("=")[1];//按照"="号拆分search数组，【0】获取"="号前，【1】获取"="号后，
+        <!-- 将分类商品信息填充 -->
+        // $.ajax({
+        //     url:"/product/findByCate",
+        //     data:{"cate_id":cate_id},
+        //     success:function (data) {
+        //         var contentHTML = "";
+        //         for(var i=0;i<data.data.length;i++){
+        //             var product = data.data[i];
+        //             contentHTML+='<div class="col-xs-2">\n' +
+        //                 '                <div class="card">\n' +
+        //                 '                    <a href="/product_detail?id='+product.id+'" target="_blank">\n' +
+        //                 '                        <img src="/img/'+product.thumbnail+'" alt="" />\n' +
+        //                 '                    </a>\n' +
+        //                 '                    <div class="card-heading">\n' +
+        //                 '                        <span class="pull-right price">￥'+product.price+' </span>\n' +
+        //                 '                        <a href="/product_detail?id=6" target="_blank">'+product.name+'</a>\n' +
+        //                 '                    </div>\n' +
+        //                 '                </div>\n' +
+        //                 '            </div>'
+        //         }
+        //         $("#list").html(contentHTML);//html() 方法返回或设置被选元素的内容 (inner HTML)。
+        //     }
+        // })
+
+        //页面加载完后，分页显示第一页的数据
+        load(cate_id,1,10)
+
+    })
+
+
+    function load(cate_id,currentpage,pageSize){
+        $.ajax({
+            url:"/product/findPage",
+            data:{"categoryId":cate_id,"currentPage":currentpage,"pageSize":pageSize},
+            type:"get",
+            success:function(data){
+
+                //显示分页的商品信息开始
+                var contentHtml="";
+                for(var i=0; i<data.list.length; i++){//data.list.size()错误，在JavaScript中没有集合的概念只有数组
+                    var product= data.list[i];
+                    contentHtml+='            <div class="col-xs-2">\n' +
+                        '                <div class="card">\n' +
+                        '                    <a href="/product_detail.html?id='+product.id+'" target="_blank">\n' +
+                        '                        <img src="/img/'+product.thumbnail+'" alt="" />\n' +
+                        '                    </a>\n' +
+                        '                    <div class="card-heading">\n' +
+                        '                        <span class="pull-right price">￥'+product.price+'</span>\n' +
+                        '                        <a href="/product_detail.html?id='+product.id+'" target="_blank">'+product.name+'</a>\n' +
+                        '                    </div>\n' +
+                        '                </div>\n' +
+                        '            </div>';
+                }
+                $("#list").html(contentHtml);
+                //显示分页的商品信息结束
+
+
+                //显示分页条开始
+                $("#totalSize").html(data.totalCount);
+                $("#totalPage").html(data.totalPage);
+                $("#currentPage").html(data.currentPage);
+
+                var start;
+                var end;
+                if(data.totalPage<=10){
+                    start=1;
+                    end=data.totalPage;
+                }else{
+                    start=data.currentPage-5;
+                    end=data.currentPage+4;
+
+                    if(start<1){
+                        start=1;
+                        end=10;
+                    }
+
+                    if(end>data.totalPage){
+                        end=data.totalPage;
+                        start=end-9;
+                    }
+                }
+
+                var pageHTML=""
+                pageHTML+='<li onclick="load('+cate_id+','+1+','+pageSize+')"><a href="javascript:void(0)">首页</a></li>';
+                if(data.currentPage>1){
+                    pageHTML+='<li onclick="load('+cate_id+','+(data.currentPage-1)+','+pageSize+')"><a href="javascript:void(0)">上一页</a></li>';
+                }
+
+                for(var i=start; i<=end;i++){
+                    if(i==data.currentPage){  //设置高亮
+                        pageHTML+=' <li class="active" onclick="load('+cate_id+','+i+','+pageSize+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    }else{
+                        pageHTML+=' <li onclick="load('+cate_id+','+i+','+pageSize+')"><a href="javascript:void(0)">'+i+'</a></li>';
+                    }
+
+                }
+                if(data.currentPage<data.totalPage){
+                    pageHTML+='<li onclick="load('+cate_id+','+(data.currentPage+1)+','+pageSize+')"><a href="javascript:void(0)">下一页</a></li>';
+                }
+                pageHTML+='<li onclick="load('+cate_id+','+(data.totalPage)+','+pageSize+')"><a href="javascript:void(0)">末页</a></li>';
+                $("#pageNav").html(pageHTML);
+
+                //显示分页结束
+
+            }
+        })
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="商城">
+	<meta name="description" content="">
+<title>黑马商城-会员登录</title>
+
+	<link href="/plugins/zui/css/zui.css" rel="stylesheet">
+	<link href="/plugins/zui/css/zui-theme.css" rel="stylesheet">
+	<link href="/css/my.css" rel="stylesheet">
+
+    </head>
+    <body>
+     <div id="top"></div>
+
+        <!-- 主内容 -->
+	<div class="wrapper" style="min-height: 500px;">
+		<div class="panel" style="margin-top: 20px">
+			<div class="panel-heading" style="font-size: 18px">
+				<strong>会员登录</strong>
+			</div>
+			<div class="panel-body row">
+				<div class="col-xs-3"></div>
+
+				<div class="col-xs-6" style="padding: 30px 60px">
+					<div class="panel" style="border: none;">
+						<div class="panel-heading" style="background: none;">
+							<strong>已有帐号</strong>
+						</div>
+						<div class="panel-body">
+							<form id="loginForm">
+
+								<div class="form-group">
+									<div id="formError" class="alert alert-danger"></div>
+								</div>
+								<div class="form-group">
+									<input type="text" name="mobile" id="mobile" value="" placeholder="请输入手机号" class="form-control input-lg">
+								</div>
+								<div class="form-group">
+									<input type="password" name="pwd" id="pwd" value="" placeholder="请输入密码" class="form-control input-lg">
+								</div>
+								<button type="button" class="btn btn-primary btn-wider btn-lg" id="btn_login">登录</button>
+								&nbsp; &nbsp;
+								<a href="/member_register.html">注册</a>
+								&nbsp;&nbsp;
+								<a href="/resetpassword.html">忘记密码</a>
+							</form>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-xs-3"></div>
+
+			</div>
+		</div>
+	</div>
+	<!-- /主内容 -->
+
+	<div id="bottom"></div>
+
+	 <script src="/plugins/zui/lib/jquery/jquery.js"></script>
+	 <script src="/js/jquery.scrollUp.min.js"></script>
+	 <script src="/plugins/zui/js/zui.js"></script>
+	 <script src="/js/include.js"></script>
+	 <script src="/js/my.js"></script>
+
+	<script>
+		//验证手机号
+		function checkPhone() {
+			//获取手机号码
+			var phone=$("#mobile").val();
+			//使用正则定义手机校验规则
+			var phoneReg= /^((13[0-9])|(17[0-1,6-8])|(15[^4,\\D])|(18[0-9]))\d{8}$/;
+			//对手机号进行校验
+			if(phoneReg.test(phone)){
+				//给手机号的边框添加绿色的样式
+				$("#mobile").css("border","2px solid green");
+				return true;
+			}else{
+				//给手机号的边框添加红色的样式
+				$("#mobile").css("border","2px solid red");
+				return false;
+			}
+
+		}
+
+		//验证密码(长度必须是6-18位)
+		function checkPwd(){
+			var pwd = $("#pwd").val();
+			if(pwd.length>=6 && pwd.length<=18){
+				$("#pwd").css("border","2px solid green");
+				return true;
+			}else{
+				$("#pwd").css("border","2px solid red");
+				return false;
+			}
+		}
+
+
+		$(function(){			//jquery的入口函数，表示整个页面加载完毕后执行
+
+			//为手机输入框添加离焦事件
+			$("#mobile").blur(function(){
+				checkPhone();
+			});
+
+			//为密码框添加记焦事件
+			$("#pwd").blur(function(){
+				checkPwd()
+			});
+
+			//为登陆按钮添加点击事件
+			$("#btn_login").click(function(){
+				if(checkPhone()&&checkPwd()){   //验证通过，提交数据到后台
+					//向服务发送ajax请求提效手机号密码
+					$.ajax({
+						//url:"/loginservlet",    //处理请求的Servlet的地址,
+						url:"/member/login",
+						data:$("#loginForm").serialize(),//解决手动输入的麻烦
+						dataType:"json",		//将服务器返回的数据当作json来进行处理
+						type:"post",   //请求方式是get还是post请求
+						success:function(data){    //data就是服务器响应回来的数据 {"flag":true,"message":"登陆成功"}  {"flag":false,"message":"登陆失败"}
+							//alert("弹框");//为什么该语句不会立即执行而是等登陆成功后才会执行
+							if(data.flag == true){
+								//登录成功进入到购物系统的首页
+								window.location.href="/main.html";
+							}else{
+								//登录失败之后跳转注册界面
+								window.location.href="/member_register.html";
+							}
+						}
+					})
+
+				}else{
+					$("#formError").html("用户名或密码出错");
+				}
+
+			})
+		})
+
+	</script>
+
+
+</body>
+</html>

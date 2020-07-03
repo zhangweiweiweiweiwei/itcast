@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="keywords" content="商城">
+	<meta name="description" content="">
+	<title>黑马商城-首页</title>
+
+	<link href="/plugins/zui/css/zui.css" rel="stylesheet">
+	<link href="/plugins/zui/css/zui-theme.css" rel="stylesheet">
+	<link href="/css/my.css" rel="stylesheet">
+
+	<!--[if lt IE 9]>
+	<script src="/plugins/zui/lib/ieonly/html5shiv.js"></script>
+	<script src="/plugins/zui/lib/ieonly/respond.js"></script>
+	<script src="/plugins/zui/lib/ieonly/excanvas.js"></script>
+	<![endif]-->
+	<script src="/plugins/ckeditor/ckeditor.js"></script>
+	<style>
+		#edit-form td{
+			padding-top: 5px;
+			padding-bottom: 5px;
+		}
+	</style>
+</head>
+<body>
+<!-- 顶部 -->
+<div id="top"></div>
+
+<!-- 主内容 -->
+<div class="wrapper" style="min-height: 530px">
+
+	<div class="row" style="padding: 20px 0px;">
+		<!-- /左边 -->
+		<div class="col-xs-2">
+			<div id="menu"></div>
+		</div>
+		<!-- /左边 -->
+
+		<!-- 右边 -->
+		<div class="col-xs-10">
+			<div class="panel">
+				<div class="panel-heading">
+					<strong><i class="icon-shopping-cart"> </i>商品管理</strong>
+					<input type="button" value="新增商品" style="float: right" id="btn-add"/>
+				</div>
+				<table class="table table-hover table-striped tablesorter">
+					<thead>
+					<tr class="text-center">
+						<td style="width: 60px">ID</td>
+						<td class="text-left">商品名称</td>
+						<td style="width: 80px">分类</td>
+						<td style="width: 80px" class="text-right">缩略图</td>
+						<td style="width: 200px">库存</td>
+						<td style="width: 60px">销售数量</td>
+						<td style="width: 100px">单价</td>
+						<td style="width: 100px">售价</td>
+						<td style="width: 120px">操作</td>
+					</tr>
+					</thead>
+					<tbody id="product-list">
+					<tr>
+						<td class="text-center">59</td>
+						<td class="text-left">
+							<a href="/product_detail?id=7">Apple MacBook Pro 13.3英寸笔记本电脑</a>
+
+						</td>
+						<td class="text-center">6</td>
+						<td class="text-right">￥28,598.00</td>
+						<td class="text-center">下单时间：2020-05-26 09:34
+						</td>
+						<td class="text-center">
+						</td>
+						<td></td>
+						<td class="text-right"></td>
+						<td class="text-center">
+							<a href="/member/orders/detail?id=59">编辑</a>
+							<a href="/member/orders/detail?id=59">删除</a>
+					</tr>
+					</tbody>
+					<tfoot>
+					<tr>
+						<td colspan="8">
+						</td>
+					</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+		<!-- /右边 -->
+	</div>
+</div>
+<!-- /主内容 -->
+
+<!--编辑窗口-->
+<!--	<div class="modal fade" id="edit-dialog">
+		<div class="modal-dialog modal-lg">
+			<form action="" method="post" class="form-horizontal" id="edit-form">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">
+							<span aria-hidden="true">×</span><span class="sr-only">关闭</span>
+						</button>
+						<h4 class="modal-title">编辑商品</h4>
+					</div>
+					<div >
+						<table width="98%">
+							<tr>
+								<td>商品名称:</td>
+								<td><input type="text" name="name" id="name"   class="input-md" style="width: 100%"></td>
+							</tr>
+							<tr>
+								<td>所属分类:</td>
+								<td><select id="cate_id" name="cate_id" style="width: 100%;height: 26px;" class="input-md"></select></td>
+							</tr>
+							<tr>
+								<td>图片:</td>
+								<td>
+									<img id="img-thumbnail" width="64px" height="64px"/>
+									<input type="hidden" name="thumbnail" />
+									<input type="file" name="pic" id="pic"/>
+								</td>
+							</tr>
+							<tr>
+								<td>库存:</td>
+								<td><input type="text" name="inventory" id="inventory"   class="input-md" style="width: 100%"></td>
+							</tr>
+							<tr>
+								<td>销售量:</td>
+								<td><input type="text" name="sales_volume" id="sales_volume"   class=" input-md" style="width: 100%"></td>
+							</tr>
+							<tr>
+								<td>单价:</td>
+								<td><input type="text" name="price" id="price"   class=" input-md" style="width: 100%"></td>
+							</tr>
+							<tr>
+								<td>售价:</td>
+								<td><input type="text" name="sale_price" id="sale_price"  class=" input-md" style="width: 100%"></td>
+							</tr>
+							<tr>
+								<td>描述:</td>
+								<td>
+									<textarea name="detail_description" id="detail_description" style="height: 50px">
+									<p>这里的内容会被初始化到编辑器中</p>
+									</textarea>
+
+							</tr>
+							<tr>
+								<td></td>
+								<td>
+									<button type="button" class="btn btn-primary btn-wider btn-md" id="btn_edit">保存</button>
+									&nbsp; &nbsp; <a href="/member_register.html">取消</a>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>-->
+
+<div class="modal fade" id="add-dialog">
+	<div class="modal-dialog modal-lg">
+		<form action="" method="post" class="form-horizontal" id="add-form" >
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">
+						<span aria-hidden="true">×</span><span class="sr-only">关闭</span>
+					</button>
+					<h4 class="modal-title">添加商品</h4>
+				</div>
+				<div >
+					<table width="98%">
+						<tr>
+							<td>商品名称:</td>
+							<td><input type="text" name="name" id="name"   class="input-md" style="width: 100%"></td>
+						</tr>
+						<tr>
+							<td>所属分类:</td>
+							<td>
+								<select id="cate_id" name="cate_id" style="width: 100%;height: 26px;" class="input-md">
+
+								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>图片:</td>
+							<td>
+								<img id="img-thumbnail" width="64px" height="64px" />
+								<input type="hidden" name="thumbnail" id="thumbnail"/>
+								<input type="file" name="pic" id="pic"/>
+							</td>
+						</tr>
+						<tr>
+							<td>库存:</td>
+							<td><input type="text" name="inventory" id="inventory"   class="input-md" style="width: 100%"></td>
+						</tr>
+						<tr>
+							<td>销售量:</td>
+							<td><input type="text" name="sales_volume" id="sales_volume"   class=" input-md" style="width: 100%"></td>
+						</tr>
+						<tr>
+							<td>单价:</td>
+							<td><input type="text" name="price" id="price"   class=" input-md" style="width: 100%"></td>
+						</tr>
+						<tr>
+							<td>售价:</td>
+							<td><input type="text" name="sale_price" id="sale_price"  class=" input-md" style="width: 100%"></td>
+						</tr>
+						<tr>
+							<td>描述:</td>
+							<td>
+									<textarea name="detail_description" id="detail_description" >
+									<p>这里的内容会被初始化到编辑器中</p>
+									</textarea>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								<button type="button" class="btn btn-primary btn-wider btn-md" id="btn_save">保存</button>
+								&nbsp; &nbsp; <a href="/member_register.html">取消</a>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+<div id="bottom"></div>
+
+<script src="/plugins/zui/lib/jquery/jquery.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/plugins/zui/js/zui.js"></script>
+<script src="/js/include.js"></script>
+<script src="/js/my.js"></script>
+
+
+<script>
+	$(function(){
+		//弹出新增窗口
+		$("#btn-add").click(function(){
+			//弹出新增框
+			$("#add-dialog").modal("show");
+			//发送ajax查找分类给下拉列表赋值
+			$.ajax({
+				url:"/category/findAll",
+				type:"get",
+				success:function(data){
+					var optionHTML=""
+					for(var i=0; i<data.length; i++){
+						optionHTML+='<option value="'+data[i].id+'">'+data[i].name+'</option>'
+					}
+					$("#cate_id").html(optionHTML)
+				}
+			})
+
+		})
+
+
+		//为文件上传按钮添加change事件
+		$("#pic").change(function(){
+
+			//1、获取到图片
+			var pic = document.getElementById("pic").files[0];
+			console.log(pic);
+			//2、将图片添加到formData对象中
+			var formData = new FormData();
+			formData.append("pic",pic);
+			//formData.append("name","richard");
+			//3、使用ajax发送图片到服务器端,注意参数顺序
+			$.ajax({
+				url:"/upload/uploadThumbnail",
+				contentType:false,
+				data:formData,
+				processData:false,	//不要将上传上去的数据转换成字符串
+				type:"post",   //文件上传一定要使用post请求
+
+				success:function(data){	//服务器返回回来的图片名
+					$("#img-thumbnail").attr("src","/img/"+data.data);
+					$("#thumbnail").val(data.data);
+				}
+			})
+
+		})
+
+
+		//为保存按钮添加点击事件
+		$("#btn_save").click(function(){
+			//获取在线编辑器的内容
+			var detail_description = myEditor.getData();
+			//获取标题
+			var name = $("#name").val()
+			//获取分类
+			var cate_id=$("#cate_id>option:selected").val()
+			//获取缩略图
+			var thumbnail = $("#thumbnail").val();
+
+			//发送ajax进行商品的新增
+			$.ajax({
+				url:"/product/add",
+				data:{"name":name,"detail_description":detail_description,"thumbnail":thumbnail,"cate_id":cate_id},
+				type:"post",
+				success:function(data){
+					if(data.flag == true) {
+						//登录成功进入到购物系统的首页
+						$("#add-dialog").modal("hide");
+					}
+					else{
+						alert("添加失败")
+					}
+				}
+			})
+
+		})
+
+
+	})
+
+	//在线编辑器
+	var myEditor = null;
+	window.onload = function(){
+		ClassicEditor
+				.create(document.querySelector("#detail_description"),{
+					ckfinder: {
+						uploadUrl: '/upload/ckeditorupload'
+					}
+				})
+				.then(editor => {
+					myEditor = editor;
+				})
+				.catch(error => {
+					console.error(error);
+				});
+	}
+
+
+</script>
+
+</body>
+</html>

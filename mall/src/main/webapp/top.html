@@ -1,0 +1,119 @@
+<div id="top">
+    <!-- 工具条 -->
+    <div id="toolbar">
+        <div class="wrapper row">
+            <div id="welcome" class="col-xs-5">欢迎会员</div>
+            <div class="col-xs-4"></div>
+            <div class="col-xs-3" style="text-align: right;">
+                <a href="/member/orders" id="memberhome">会员首页</a>
+                <a href="javascript:void(0)" id="logout">退出</a><!-- 单机重新返回当前页面 -->
+                <a href="/member_login.html">登录</a>
+                <a href="/member_register.html">注册</a>
+            </div>
+
+        </div>
+    </div>
+    <!-- /工具条 -->
+
+    <!-- LOGO栏 -->
+    <div id="subject">
+        <div class="wrapper row">
+            <div class="col-xs-2" id="logo">
+                <a href="/main ">
+                    <img src="/images/logo-zx.jpg" style="width: 160px;"/>
+                </a>
+            </div>
+            <div class="col-xs-2"></div>
+            <div class="col-xs-4" id="search">
+                <form action="/search" method="post">
+                    <div class="input-group">
+                        <input type="text" name="keyword" id="keyword" class="form-control" placeholder="商品搜索"/>
+                        <div class="input-group-btn">
+                            <button class="btn btn-primary" type="submit">
+                                <i class="icon icon-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-xs-2"></div>
+            <div class="col-xs-2" id="cart">
+                <a href="/view_cart.jsp" class="btn btn-primary" style="width: 120px; height: 40px; line-height: 30px;">
+                    <i class="icon icon-shopping-cart"></i> 购物车
+                    <!-- <span class="label label-badge" style="background-color: #eba5a3;">4</span> -->
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- /LOGO栏 -->
+
+    <!-- 导航栏 -->
+    <div id="navbar" class="navbar navbar-inverse">
+        <div class="wrapper row">
+            <ul class="nav navbar-nav col-xs-12" id="nav">
+<!--                <li><a href="/main.html">首页</a></li>-->
+<!--                <li><a href="/about.html">关于我们</a></li>-->
+            </ul>
+        </div>
+    </div>
+    <!-- /导航栏 -->
+</div>
+<!-- /顶部 -->
+
+<script>
+    $(function(){       //页面加载完毕
+
+        //页面加载完毕后立即发送ajax请求，获取当前登陆用户的昵称
+        $.ajax({
+            //url:"/findUserNikNameServlet",
+            url:"/member/findNickName",
+            type:"get",
+            dataType:"json",
+            success:function(data){    //data:{"flag":true,"data":{"id":1,"mobile":"13888888888","pwd":"666666","nick_name":"武汉黑马","real_name":"武汉黑马","email":"whitcast@itcast.cn","gender":1,"register_time":1590713422000},"msg":""}
+                                        //data:{"flag":true,"data":null,"msg":""}
+                if(data.data==null){
+                    $("#welcome").html("");   //如果未登陆则啥都不显示
+                    $("#memberhome").hide();    //如果未登陆则不显示会员首页超链
+                    $("#logout").hide();    //如果未登陆则不显示退出
+                }else{
+                    $("#welcome").html("欢迎会员:"+data.data.nick_name);
+                }
+
+            }
+        })
+
+        //为退出按钮添加单击事件
+        $("#logout").click(function(){
+                //发送ajax请求完成退出的任务
+                $.ajax({
+                    url:"/member/logout",
+                    dataType:"json",
+                    success:function(data){
+                        if(data.flag==true){
+                            //退出之后，重新进入到登陆页面
+                            window.location.href="/member_login.html";
+                        }
+                    }
+                })
+        })
+
+        //页面加载完成后立即发送ajax请求，获取分类信息
+        $.ajax({
+            url:"/category/findAll",
+            type:"get",
+            dateType:"json",
+            success:function (date){
+                //alert(date.data.length);
+                var contentHTML = '<li><a href="/main.html">首页</a></li>';
+                //alert(data.data.length);
+                for(var i = 0;i < date.length;i++){
+                    var category = date[i];
+                    contentHTML+='<li><a href="/product_list.html?cate_id='+category.id+'">'+category.name+'</a></li>';
+                }
+                contentHTML+='<li><a href="/product_list.html">关于我们</a></li>';
+                $("#nav").html(contentHTML);//html() 方法返回或设置被选元素的内容 (inner HTML)。
+            }
+        })
+
+    })
+</script>

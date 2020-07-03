@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="keywords" content="商城">
+    <meta name="description" content="">
+    <title>结算</title>
+
+    <link href="/plugins/zui/css/zui.css" rel="stylesheet">
+    <link href="/plugins/zui/css/zui-theme.css" rel="stylesheet">
+    <link href="/css/my.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <script src="/plugins/zui/lib/ieonly/html5shiv.js"></script>
+    <script src="/plugins/zui/lib/ieonly/respond.js"></script>
+    <script src="/plugins/zui/lib/ieonly/excanvas.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div id="top"></div>
+
+<!-- 主内容 -->
+<div class="wrapper" style="min-height: 500px;">
+    <div class="panel" style="margin-top: 20px">
+        <div class="panel-heading" style="font-size: 18px">
+            <strong>结算</strong>
+        </div>
+        <form action="/payment" method="post" id="orderForm">
+            <div class="panel-body">
+                <div id="addressBox">
+                    <div id="addressTitle">
+                        <strong>收货地址</strong> <a href="javascript:addAddress()">添加新地址</a>
+                    </div>
+                    <div id="addressList">
+                       <!-- <div class="item">
+                            <span> <input type="radio" checked="checked" name="address_id" value="6"/></span>
+                            <strong>richard</strong>
+                            <span>13688888888</span>
+                            <span class="text-muted">湖北宜昌</span>
+                            <span class="text-muted">443000</span>
+                        </div>-->
+
+                    </div>
+                </div>
+
+                <br/> <br/>
+                <!--订单项列表-->
+
+                    <div class="panel-body">
+                        <table class="table">
+                            <thead>
+                            <tr class="text-center">
+                                <td colspan="2" class="text-left">商品信息</td>
+                                <td class="text-left">价格</td>
+                                <td>数量</td>
+                                <td>金额</td>
+                            </tr>
+                            </thead>
+                            <tbody id="order-list">
+
+                 <!--           <tr>
+                                <td style="width: 100px">
+                                    <a href="/product_detail?id=11"><img src="/img/dell-desktop.jpg" title="" alt=""/></a>
+                                </td>
+                                <td class="text-left">
+                                    <a href="/product_detail?id=11" class="media-wrapper">戴尔（DELL）Vostro 3800-R6308 台式电脑</a>
+                                </td>
+                                <td style="width: 100px">
+                                    <div id="price">
+                                        3199.00
+                                    </div>
+                                </td>
+                                <td style="width: 140px;" align="center">
+                                    <div class="input-group">
+                                        <div class="input-group">
+                                            <span id="amount">1</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style="width: 160px" class="text-center text-middle">
+                                    <strong class="text-danger" id="sum">3199.00</strong>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td style="width: 100px">
+                                    <a href="/product_detail?id=13"><img src="/img/ipad.png" title="" alt=""/></a>
+                                </td>
+                                <td class="text-left">
+                                    <a href="/product_detail?id=13" class="media-wrapper">Apple iPad mini 4 平板电脑 7.9英寸</a>
+                                </td>
+                                <td style="width: 100px">
+                                    <div id="price">
+                                        3288.00
+                                    </div>
+                                </td>
+                                <td style="width: 140px" align="center">
+                                    <div class="input-group">
+                                        <span id="amount">1</span>
+                                    </div>
+                                </td>
+                                <td style="width: 160px" class="text-center text-middle">
+                                    <strong class="text-danger" id="sum">3288.00</strong>
+                                </td>
+
+                            </tr>-->
+                            </tbody>
+                        </table>
+
+                    </div>
+
+
+
+                <div class="form-group">
+                    <label class="col-xs-1 control-label required">买家留言</label>
+                    <div class="col-xs-11">
+                        <input type="text" name="remark" id="remark" class="form-control"/>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer text-right">
+                选择了 <strong class="text-danger" id="totalNum">1</strong>
+                件商品， 共计：<strong class="text-danger" id="amount-sum">￥8,999.00 </strong>
+                <input type="button" id="submit" class="btn btn-primary" value="提交订单"/>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /主内容 -->
+
+
+<div id="bottom"></div>
+
+<div class="modal fade" id="address">
+    <div class="modal-dialog modal-md">
+        <form action="" method="post" class="form-horizontal" id="addressForm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">×</span><span class="sr-only">关闭</span>
+                    </button>
+                    <h4 class="modal-title">添加地址</h4>
+                </div>
+                <div class="modal-footer">
+
+                    <table width="100%">
+                        <tr>
+                            <td width="15%">姓名:</td>
+                            <td width="85%"><input type="text" name="contact" id="contact"
+                                       placeholder="请输入联系人姓名" class="form-control input-md"></td>
+                        </tr>
+                        <tr>
+                            <td>电话:</td>
+                            <td><input type="text" name="mobile" id="mobile"
+                                       placeholder="请输入手机号" class="form-control input-md"></td>
+                        </tr>
+                        <tr>
+                            <td>详细地址:</td>
+                            <td><input type="text" name="street" id="street"
+                                       placeholder="详细地址" class="form-control input-md"></td>
+                        </tr>
+                        <tr>
+                            <td>邮编:</td>
+                            <td><input type="text" name="zipcode" id="zipcode" value=""
+                                       placeholder="邮编" class="form-control input-md"></td>
+                        </tr>
+                        <tr>
+                            <td>设为默认地址:</td>
+                            <td style="text-align: left">
+                                <input type="radio" name="default_value" value="1" checked/>是&nbsp;&nbsp;
+                                <input type="radio" name="default_value" value="0"/>否
+                            </td>
+                        </tr>
+                    </table>
+
+                    <button type="button" class="btn btn-primary btn-wider btn-md" id="btn_add" >添加</button>
+                    <button type="button" class="btn btn-primary btn-wider btn-md" id="btn_cancel" onclick="$('#address').modal('hide')">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- /右侧浮动栏 -->
+
+<script src="/plugins/zui/lib/jquery/jquery.js"></script>
+<script src="/js/jquery.scrollUp.min.js"></script>
+<script src="/plugins/zui/js/zui.js"></script>
+<script src="/js/include.js"></script>
+<script src="/js/my.js"></script>
+
+
+<script>
+  $(function(){
+      //1、获取到当前用户的收货地址
+      //发送ajax请求获取当前用户收货地址并显示
+        loadAddress();
+
+      //2、显示订单详情
+      //要获取view_cart.html页面传过来的商品的id和数量
+      var arr = window.location.search.split("&")
+      var ids =arr[0].split("=")[1];        //获取购物车页面传过来的商品id  1,31
+      var amounts = arr[1].split("=")[1];     //获取购物车页面传过来的商品数量  1,1
+
+      //发送ajax请求到后台根据商品id查询出商品的详情
+      $.ajax({
+          url:"/order/confirmOrder",
+          data:{"ids":ids,"amounts":amounts},
+          type:"post",
+          success:function(data){
+
+              var orderHtml=""
+              for(var i=0; i<data.data.length; i++){
+                  var cartItem = data.data[i];
+                  //在生成订单项时，需要为个订单项添加两个隐藏域，分别用来存储商品编号和数量，以保证提交时能将这些信息提交到servlet中-->
+                orderHtml+='  <tr>\n' +
+                    '                                <td style="width: 100px">\n<input type="hidden" name="ids" value="'+cartItem.product.id+'"/> <input type="hidden" name="amounts" value="'+cartItem.number+'"' +
+                    '                                    <a href="/product_detail.html?id='+cartItem.product.id+'"><img src="/img/'+cartItem.product.thumbnail+'" title="" alt=""/></a>\n' +
+                    '                                </td>\n' +
+                    '                                <td class="text-left">\n' +
+                    '                                    <a href="/product_detail.html?id='+cartItem.product.id+'" class="media-wrapper">'+cartItem.product.name+'</a>\n' +
+                    '                                </td>\n' +
+                    '                                <td style="width: 100px">\n' +
+                    '                                    <div id="price">\n' +
+                    '                                        '+cartItem.product.sale_price+'\n' +
+                    '                                    </div>\n' +
+                    '                                </td>\n' +
+                    '                                <td style="width: 140px;" align="center">\n' +
+                    '                                    <div class="input-group">\n' +
+                    '                                        <div class="input-group">\n' +
+                    '                                            <span id="amount">'+cartItem.number+'</span>\n' +
+                    '                                        </div>\n' +
+                    '                                    </div>\n' +
+                    '                                </td>\n' +
+                    '                                <td style="width: 160px" class="text-center text-middle">\n' +
+                    '                                    <strong class="text-danger" id="sum">'+(cartItem.product.sale_price*cartItem.number)+'</strong>\n' +
+                    '                                </td>\n' +
+                    '\n' +
+                    '                            </tr>';
+              }
+              $("#order-list").html(orderHtml);
+              //计算总数量和价格
+              countSum();
+          }
+      })
+
+
+      //3、为保存地址按钮添加单击事件
+        $("#btn_add").click(function(){
+                //发送ajax请求保存新增的地址
+                $.ajax({
+                    url:"/address/saveAddress",
+                    data:$("#addressForm").serialize(),
+                    type:"post",
+                    success:function(data){
+                        if(data.flag==true){
+                            //添加成功后需要将当前的添加窗口关闭
+                            $("#address").modal("hide");
+                            //重新发送ajax请求获取添加后的地址列表
+                            loadAddress();
+                        }
+                    }
+                })
+        })
+
+
+      //4、为提交订单按钮添加单击事件
+      $("#submit").click(function(){
+          $.ajax({
+              url:"/order/submitOrder",
+              data:$("#orderForm").serialize(),
+              type:"post",
+              success:function(data){
+                    if(data.flag == true){
+                        //若订单生成成功跳转至支付选择界面,传递订单号
+                        window.location.href="/checkway.html?orderNumber="+data.data.number+"&payment_price="+data.data.payment_price;
+                    }
+              }
+          })
+      })
+  })
+
+
+
+  //点击"添加地址"弹出添加地址对话
+    function addAddress(){
+      $("#address").modal("show");
+    }
+
+    //查找地址
+    function loadAddress(){
+        $.ajax({
+            url:"/address/findByMember",
+            success:function (data) {
+                var addressHTML="";
+                for(var i=0; i<data.data.length; i++){
+                    var address=data.data[i];
+                    if(address.default_value==1){
+                        addressHTML+='  <div class="item">\n' +
+                            '                            <span> <input type="radio" checked="true" name="address_id" value="'+address.id+'"/></span>\n' +
+                            '                            <strong>'+address.contact+'</strong>\n' +
+                            '                            <span>'+address.mobile+'</span>\n' +
+                            '                            <span class="text-muted">'+address.street+'</span>\n' +
+                            '                            <span class="text-muted">'+address.zipcode+'</span>\n' +
+                            '                        </div>';
+                    }else{
+                        addressHTML+='  <div class="item">\n' +
+                            '                            <span> <input type="radio"  name="address_id" value="'+address.id+'"/></span>\n' +
+                            '                            <strong>'+address.contact+'</strong>\n' +
+                            '                            <span>'+address.mobile+'</span>\n' +
+                            '                            <span class="text-muted">'+address.street+'</span>\n' +
+                            '                            <span class="text-muted">'+address.zipcode+'</span>\n' +
+                            '                        </div>';
+                    }
+
+                }
+
+                $("#addressList").html(addressHTML);
+            }
+        })
+    }
+
+  /*计算总数量及总价格*/
+  function countSum(){
+      var amount = 0;
+      var price = 0;
+      $('#order-list>tr').each(function(){ //循环表格的每一行
+          amount += parseInt($("#amount", $(this)).text());
+          price = (parseFloat(price) + parseFloat($("#sum", $(this)).text())).toFixed(2);
+      })
+      $('#totalNum').text(amount);
+      $('#amount-sum').text(price);
+  }
+
+</script>
+
+
+</body>
+</html>
